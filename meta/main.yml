@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: "Andrew Kumanyaev"
+  description: Common role for prepair machine
+  company: Undev
+  license: MIT
+  version: 0.1
+  min_ansible_version: 1.4
+  platforms:
+    - name: Ubuntu
+      versions:
+       - precise
+  categories:
+    - networking
+    - packaging
+    - system
+dependencies: []
