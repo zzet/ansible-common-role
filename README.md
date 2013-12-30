@@ -19,8 +19,8 @@ None
 Role Variables
 --------------
 
-    locale = "en_US.UTF-8"
-    project_directory = /rest/u/apps
+    locale: "en_US.UTF-8"
+    project_directory: /rest/u/apps
     packages:
       - curl
       - vim
