@@ -24,6 +24,11 @@
   with_items: $packages
   sudo: yes
 
+- name: Common | create users
+  user: home={{ item.home }} name={{ item.name }} comment="{{ item.comment }}" state=present
+  with_items: $users
+
 - name: Common | app_prepare | Create apps users path
   file: state=directory path={{ project_directory }}
   sudo: yes
+
