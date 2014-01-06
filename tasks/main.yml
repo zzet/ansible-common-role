@@ -6,6 +6,7 @@
 
 - name: pushes new resolver configuration is resolver fails
   lineinfile: regexp="^nameserver " line="nameserver 8.8.8.8" dest=/etc/resolv.conf
+  sudo: yes
   when: ns|failed
 
 - name: checks if resolver is working properly with new nameserver
@@ -18,6 +19,7 @@
 
 - name: ensure apt cache is up to date
   apt: update_cache=yes
+  sudo: yes
 
 - name: install {{ item }} pkgs
   apt: pkg={{ item }}
@@ -28,6 +30,7 @@
   user: name={{ item.name }} home={{ item.home }}
         comment="{{ item.comment }}" generate_ssh_key=yes
         state=present
+  sudo: yes
   with_items: users
 
 - name: add ~/.bashrc to user
@@ -38,6 +41,7 @@
 
 - name: update users groups
   user: name={{ item.name }} groups={{ item.groups }}
+  sudo: yes
   with_items: users
 
 - name: app_prepare | Create apps users path
