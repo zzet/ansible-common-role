@@ -1,7 +1,7 @@
 ---
 # defaults file for common
 locale: "en_US.UTF-8"
-project_directory: /rest/u/apps
+projects_directory: /rest/u/apps
 packages:
   - curl
   - vim

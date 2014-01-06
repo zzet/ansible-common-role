@@ -1,34 +1,45 @@
 ---
-- name: Common | checks if resolver is working properly (issues with some VBox/Host OS combinations)
-  action: command host -t A ansible.cc
+- name: checks if resolver is working properly (issues with some VBox/Host OS combinations)
+  command: host -t A ansible.cc
   register: ns
   ignore_errors: yes
 
-- name: Common | pushes new resolver configuration is resolver fails
-  action: lineinfile regexp="^nameserver " line="nameserver 8.8.8.8" dest=/etc/resolv.conf
+- name: pushes new resolver configuration is resolver fails
+  lineinfile: regexp="^nameserver " line="nameserver 8.8.8.8" dest=/etc/resolv.conf
   when: ns|failed
 
-- name: Common | checks if resolver is working properly with new nameserver
-  action: command host -t A ansible.cc
+- name: checks if resolver is working properly with new nameserver
+  command: host -t A ansible.cc
 
-- name: Common | make sure the system encoding is {{ locale }}
+- name: make sure the system encoding is {{ locale }}
   sudo: yes
   template: src=locale dest=/etc/default/locale
             owner=root group=root mode=644
 
-- name: Common | ensure apt cache is up to date
+- name: ensure apt cache is up to date
   apt: update_cache=yes
 
-- name: Common | install {{ item }} pkgs
+- name: install {{ item }} pkgs
   apt: pkg={{ item }}
-  with_items: $packages
+  with_items: packages
   sudo: yes
 
-- name: Common | create users
-  user: home={{ item.home }} name={{ item.name }} comment="{{ item.comment }}" state=present
-  with_items: $users
+- name: create users
+  user: name={{ item.name }} home={{ item.home }}
+        comment="{{ item.comment }}" generate_ssh_key=yes
+        state=present
+  with_items: users
 
-- name: Common | app_prepare | Create apps users path
-  file: state=directory path={{ project_directory }}
+- name: add ~/.bashrc to user
+  file: state=touch dest="{{ item.home }}/.bashrc"
+  sudo: true
+  sudo_user: "{{ item.name }}"
+  with_items: users
+
+- name: update users groups
+  user: name={{ item.name }} groups={{ item.groups }}
+  with_items: users
+
+- name: app_prepare | Create apps users path
+  file: state=directory path={{ projects_directory }}
   sudo: yes
-
