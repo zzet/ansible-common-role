@@ -34,12 +34,6 @@
   with_items: users
   when: "{{ item.name }} != {{ ansible_ssh_user }}"
 
-- name: add ~/.bashrc to user
-  file: state=touch dest="{{ item.home }}/.bashrc"
-  sudo: true
-  sudo_user: "{{ item.name }}"
-  with_items: users
-
 - name: update users groups
   user: name={{ item.name }} groups={{ item.groups }}
   sudo: yes
