@@ -32,7 +32,7 @@
         state=present
   sudo: yes
   with_items: users
-  when: "{{ item.name }} != {{ ansible_ssh_user }}" 
+  when: "{{ item.name }} != {{ ansible_ssh_user }}"
 
 - name: add ~/.bashrc to user
   file: state=touch dest="{{ item.home }}/.bashrc"
