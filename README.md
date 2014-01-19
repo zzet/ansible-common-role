@@ -5,7 +5,6 @@ Role Name
     - curl
     - vim
     - git
-    - runit
     - htop
     - atop
     - imagemagick
@@ -30,7 +29,6 @@ Defaults:
       - curl
       - vim
       - git
-      - runit
       - htop
       - atop
       - imagemagick
@@ -43,7 +41,6 @@ Example:
       - curl
       - vim
       - git
-      - runit
       - htop
       - atop
       - python-pycurl
