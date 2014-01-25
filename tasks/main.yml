@@ -32,7 +32,11 @@
         state=present
   sudo: yes
   with_items: users
-  when: "{{ item.name }} != {{ ansible_ssh_user }}"
+
+- name: update access to users directory
+  file: state=directory mode=755 owner={{ item.name }} group={{ item.name }} name={{ item.home }}
+  sudo: true
+  with_items: users
 
 - name: update users groups
   user: name={{ item.name }} groups={{ item.groups }}
