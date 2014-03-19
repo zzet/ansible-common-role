@@ -5,8 +5,8 @@
   ignore_errors: yes
 
 - name: pushes new resolver configuration is resolver fails
-  lineinfile: regexp="^nameserver " line="nameserver 8.8.8.8" dest=/etc/resolv.conf
   sudo: yes
+  lineinfile: regexp="^nameserver " line="nameserver 8.8.8.8" dest=/etc/resolv.conf
   when: ns|failed
 
 - name: checks if resolver is working properly with new nameserver
@@ -18,31 +18,29 @@
             owner=root group=root mode=644
 
 - name: ensure apt cache is up to date
-  apt: update_cache=yes
   sudo: yes
+  apt: update_cache=yes
 
 - name: install {{ item }} pkgs
+  sudo: yes
   apt: pkg={{ item }}
   with_items: packages
-  sudo: yes
 
 - name: create users
-  user: name={{ item.name }} home={{ item.home }}
-        comment="{{ item.comment }}" generate_ssh_key=yes
-        state=present
   sudo: yes
+  user: name={{ item.name }} home={{ item.home }} comment="{{ item.comment }}" generate_ssh_key=yes state=present
   with_items: users
 
 - name: update access to users directory
+  sudo: yes
   file: state=directory mode=755 owner={{ item.name }} group={{ item.name }} name={{ item.home }}
-  sudo: true
   with_items: users
 
 - name: update users groups
-  user: name={{ item.name }} groups={{ item.groups }}
   sudo: yes
+  user: name={{ item.name }} groups={{ item.groups }}
   with_items: users
 
 - name: app_prepare | Create apps users path
-  file: state=directory path={{ projects_directory }}
   sudo: yes
+  file: state=directory path={{ projects_directory }}
