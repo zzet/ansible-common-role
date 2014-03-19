@@ -14,8 +14,7 @@
 
 - name: make sure the system encoding is {{ locale }}
   sudo: yes
-  template: src=locale dest=/etc/default/locale
-            owner=root group=root mode=644
+  template: src=locale dest=/etc/default/locale owner=root group=root mode=644
 
 - name: ensure apt cache is up to date
   sudo: yes
