@@ -22,7 +22,7 @@
 
 - name: install {{ item }} pkgs
   sudo: yes
-  apt: pkg={{ item }}
+  apt: pkg={{ item }} state=present
   with_items: packages
 
 - name: create users
