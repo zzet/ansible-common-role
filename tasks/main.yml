@@ -12,17 +12,13 @@
 - name: checks if resolver is working properly with new nameserver
   command: host -t A ansible.cc
 
-- name: make sure the system encoding is {{ locale }}
+- name: "make sure the system encoding is {{ locale }}"
   sudo: yes
   template: src=locale dest=/etc/default/locale owner=root group=root mode=644
 
-- name: ensure apt cache is up to date
-  sudo: yes
-  apt: update_cache=yes
-
 - name: install {{ item }} pkgs
   sudo: yes
-  apt: pkg={{ item }}
+  apt: pkg={{ item }} state=present update_cache=yes cache_valid_time=3600
   with_items: packages
 
 - name: create users
