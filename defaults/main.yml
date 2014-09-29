@@ -10,6 +10,5 @@ packages:
   - atop
   - imagemagick
   - python-pycurl
-  - cmake
 
 users: []
