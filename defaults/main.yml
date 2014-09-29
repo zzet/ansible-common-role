@@ -8,7 +8,5 @@ packages:
   - git
   - htop
   - atop
-  - imagemagick
-  - python-pycurl
 
 users: []
